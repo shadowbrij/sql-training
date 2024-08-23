@@ -1,0 +1,15 @@
+
+In SQL Server Management Studio, open the Query.sql Transact-SQL file from the folder D:\LabFiles\Lab09\Lab09C\Ex01\Starter.
+Press ctrl + m key to include actual execution plan. Click Execute.
+In the Messages pane find the output similar to follwing message. Note the logical reads for FactProductInventory2 table.
+Table 'FactProductInventory2'. Scan count 5, logical reads 15372, physical reads 0, read-ahead reads 8434, lob logical reads 0, lob physical reads 0, lob read-ahead reads 0.
+In the Execution plan pane observe the plan of Query 3. Note the Table Scan on FactProductInventory2 table.
+Open AnalyzeVFS.sql Transact-SQL file from the folder D:\LabFiles\Lab09\Lab09C\Ex01\Starter and click Execute.
+In the Results pane observe the num_reads, kb_read and io_stalls for the Run, Without Index.
+
+In SQL Server Management Studio, open createIndex.sql Transact-SQL file from the folder D:\LabFiles\Lab09\Lab09C\Ex01\Starter and click Execute.
+In Query.sql query window, click Execute.
+In Messages pane find the output similar to follwing message. Observe the logical reads for FactProductInventory2 table have reduced from last noted value.
+Table 'FactProductInventory2'. Scan count 1, logical reads 25, physical reads 1, read-ahead reads 22, lob logical reads 0, lob physical reads 0, lob read-ahead reads 0.
+In the Execution plan pane observe the plan of Query 3. Observe the Table Scan on FactProductInventory2 table changed to Index Seek (Nonclustered).
+In AnalyzeVFS.sql query window, click Execute. Observe the improvement in num_reads, kb_read and io_stalls for the Run, With Index compared to the Without Index.

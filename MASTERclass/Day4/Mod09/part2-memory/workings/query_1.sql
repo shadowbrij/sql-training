@@ -1,0 +1,15 @@
+0x060017004240F508305EB97F0100000001000000000000000000000000000000000000000000000000000000
+0x020000004240F508BED0D69F9F9919AB9F9CF51ED68ED7DE0000000000000000000000000000000000000000
+
+select * from sys.dm_exec_query_plan(0x060017004240F508305EB97F0100000001000000000000000000000000000000000000000000000000000000)
+
+select * from sys.dm_exec_sql_text
+(0x020000004240F508BED0D69F9F9919AB9F9CF51ED68ED7DE0000000000000000000000000000000000000000)
+
+set statistics io on
+
+select tblOrders.*, tblCustomers.*, tblEmployees.* from tblOrders
+inner join tblCustomers on tblOrders.custid=tblCustomers.custid
+inner join tblEmployees on tblOrders.empid=tblEmployees.empid
+where orderdate = '2005-01-12 00:00:00.000'
+order by tblCustomers.custid, tblEmployees.empid, tblOrders.orderdate

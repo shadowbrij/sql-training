@@ -1,0 +1,47 @@
+sqlio -kW -t8 -s360 -o16 -frandom -b8 -LS -Fparam.txt
+sqlio -kW -t8 -s360 -o16 -frandom -b64 -LS -Fparam.txt
+sqlio -kW -t8 -s360 -o16 -frandom -b128 -LS -Fparam.txt
+sqlio -kW -t8 -s360 -o16 -frandom -b256 -LS -Fparam.txt
+sqlio -kW -t8 -s360 -o16 -frandom -b1024 -LS -Fparam.txt
+
+sqlio -kW -t16 -s360 -o32 -frandom -b8 -LS -Fparam.txt
+sqlio -kW -t16 -s360 -o32 -frandom -b64 -LS -Fparam.txt
+sqlio -kW -t16 -s360 -o32 -frandom -b128 -LS -Fparam.txt
+sqlio -kW -t16 -s360 -o32 -frandom -b256 -LS -Fparam.txt
+sqlio -kW -t16 -s360 -o32 -frandom -b1024 -LS -Fparam.txt
+
+sqlio -kR -t8 -s360 -o16 -frandom -b8 -LS -Fparam.txt
+sqlio -kR -t8 -s360 -o16 -frandom -b64 -LS -Fparam.txt
+sqlio -kR -t8 -s360 -o16 -frandom -b128 -LS -Fparam.txt
+sqlio -kR -t8 -s360 -o16 -frandom -b256 -LS -Fparam.txt
+sqlio -kR -t8 -s360 -o16 -frandom -b1024 -LS -Fparam.txt
+
+sqlio -kR -t16 -s360 -o32 -frandom -b8 -LS -Fparam.txt
+sqlio -kR -t16 -s360 -o32 -frandom -b64 -LS -Fparam.txt
+sqlio -kR -t16 -s360 -o32 -frandom -b128 -LS -Fparam.txt
+sqlio -kR -t16 -s360 -o32 -frandom -b256 -LS -Fparam.txt
+sqlio -kR -t16 -s360 -o32 -frandom -b1024 -LS -Fparam.txt
+
+sqlio -kW -t8 -s360 -o16 -fsequential -b8 -LS -Fparam.txt
+sqlio -kW -t8 -s360 -o16 -fsequential -b64 -LS -Fparam.txt
+sqlio -kW -t8 -s360 -o16 -fsequential -b128 -LS -Fparam.txt
+sqlio -kW -t8 -s360 -o16 -fsequential -b256 -LS -Fparam.txt
+sqlio -kW -t8 -s360 -o16 -fsequential -b1024 -LS -Fparam.txt
+
+sqlio -kW -t16 -s360 -o32 -fsequential -b8 -LS -Fparam.txt
+sqlio -kW -t16 -s360 -o32 -fsequential -b64 -LS -Fparam.txt
+sqlio -kW -t16 -s360 -o32 -fsequential -b128 -LS -Fparam.txt
+sqlio -kW -t16 -s360 -o32 -fsequential -b256 -LS -Fparam.txt
+sqlio -kW -t16 -s360 -o32 -fsequential -b1024 -LS -Fparam.txt
+
+sqlio -kR -t8 -s360 -o16 -fsequential -b8 -LS -Fparam.txt
+sqlio -kR -t8 -s360 -o16 -fsequential -b64 -LS -Fparam.txt
+sqlio -kR -t8 -s360 -o16 -fsequential -b128 -LS -Fparam.txt
+sqlio -kR -t8 -s360 -o16 -fsequential -b256 -LS -Fparam.txt
+sqlio -kR -t8 -s360 -o16 -fsequential -b1024 -LS -Fparam.txt
+
+sqlio -kR -t16 -s360 -o32 -fsequential -b8 -LS -Fparam.txt
+sqlio -kR -t16 -s360 -o32 -fsequential -b64 -LS -Fparam.txt
+sqlio -kR -t16 -s360 -o32 -fsequential -b128 -LS -Fparam.txt
+sqlio -kR -t16 -s360 -o32 -fsequential -b256 -LS -Fparam.txt
+sqlio -kR -t16 -s360 -o32 -fsequential -b1024 -LS -Fparam.txt

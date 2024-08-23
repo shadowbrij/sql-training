@@ -1,0 +1,19 @@
+-- BUFFERLATCH waits
+SELECT *
+FROM sys.dm_os_waiting_tasks
+WHERE 
+	wait_type LIKE 'PAGELATCH_%'
+GO
+
+
+-- Stop Workload
+USE [master];
+GO
+
+ALTER DATABASE [AdventureWorks2014] SET SINGLE_USER
+WITH ROLLBACK IMMEDIATE;
+GO
+
+ALTER DATABASE [AdventureWorks2014] SET MULTI_USER
+WITH ROLLBACK IMMEDIATE;
+GO

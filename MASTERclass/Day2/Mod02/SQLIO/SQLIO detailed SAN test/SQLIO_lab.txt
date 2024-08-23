@@ -1,0 +1,24 @@
+1---------
+
+SQLIO
+
+2--------
+
+sqlio.exe -kW -s120 -f64 -i512 -b64 -LS D:\TestFileA.dat
+
+(change parameters and test again)
+
+The most important parameters are: 
+
+•-kW means writes (as opposed to reads) 
+•-t2 means two threads 
+•-s120 means test for 120 seconds 
+•-dM means drive letter M 
+•-o1 means one outstanding request (not piling up requests) 
+•-frandom means random access (as opposed to sequential) 
+•-b64 means 64kb IOs 
+
+
+SANTEST.BAT > RESULTS.TXT 
+
+

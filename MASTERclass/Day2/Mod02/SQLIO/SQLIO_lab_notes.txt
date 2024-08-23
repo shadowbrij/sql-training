@@ -1,0 +1,25 @@
+After installing SQLIO, edit the param.txt file and change these two parameters: 
+
+•First parameter - the physical location of the testing file. Change the drive letter to point to the SAN drive you want to test, like T:\testfile.dat. 
+•Last parameter - the size of the testing file in megabytes. Increase this to 20480 or larger. Ideally, you want it to be larger than your SAN's cache, because your real databases will be larger than the SAN's cache. 
+After saving param.txt, run this at the command line in the same directory where SQLIO is installed in order to create the test file: 
+
+
+run this qucik sample to generate the test file
+
+sqlio -kW -s10 -fsequential -o8 -b8 -LS -Fparam.txt timeout /T 10
+
+
+
+then choose the basic test or detailed test (2 sepearte folders have been crreated by AMit Bansal)
+
+batchfilename.bat > results.txt
+
+
+run the ETL script
+
+
+import the results.txt into sql server
+
+
+

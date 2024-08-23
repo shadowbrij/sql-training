@@ -1,0 +1,71 @@
+<deadlock-list>
+	<deadlock victim="process1e770e188">
+		<process-list>
+			<process id="process1e770e188" taskpriority="0" logused="364" waitresource="KEY: 7:72057594046906368 (34465b899acf)" waittime="7502" ownerId="24885" transactionname="user_transaction" lasttranstarted="2012-10-24T14:47:55.113" XDES="0x1efb68d28" lockMode="X" schedulerid="2" kpid="4692" status="suspended" spid="57" sbid="0" ecid="0" priority="0" trancount="2" lastbatchstarted="2012-10-24T14:47:55.113" lastbatchcompleted="2012-10-24T14:47:55.110" lastattention="1900-01-01T00:00:00.110" clientapp="Microsoft SQL Server Management Studio - Query" hostname="AHMAD-PC" hostpid="6664" loginname="AHMAD-PC\Ahmad" isolationlevel="read committed (2)" xactid="24885" currentdb="7" lockTimeout="4294967295" clientoption1="671088672" clientoption2="128056">
+				<executionStack>
+					<frame procname="adhoc" line="7" stmtstart="44" sqlhandle="0x02000000df04e6321b2da93e6d389a4f397f67df34c260ba0000000000000000000000000000000000000000">
+UPDATE [Sales].[SalesOrderDetail] set [OrderQty] = @1  WHERE [SalesOrderID]=@2 AND [SalesOrderDetailID]=@3     </frame>
+					<frame procname="adhoc" line="7" stmtstart="216" stmtend="434" sqlhandle="0x0200000039451a2a11dc545392dbfa005056f2a63aea90e50000000000000000000000000000000000000000">
+UPDATE Sales.SalesOrderDetail 
+SET OrderQty=10 
+WHERE SalesOrderID=57024 
+AND SalesOrderDetailID=60591     </frame>
+				</executionStack>
+				<inputbuf>
+BEGIN TRAN
+
+UPDATE Person.Person SET Suffix='Mr.' WHERE BusinessEntityID=1 
+
+WAITFOR DELAY '00:00:5'
+
+UPDATE Sales.SalesOrderDetail 
+SET OrderQty=10 
+WHERE SalesOrderID=57024 
+AND SalesOrderDetailID=60591 
+
+ROLLBACK TRAN    </inputbuf>
+			</process>
+			<process id="process1ea692188" taskpriority="0" logused="3144" waitresource="KEY: 7:72057594045530112 (8194443284a0)" waittime="4402" ownerId="24824" transactionname="user_transaction" lasttranstarted="2012-10-24T14:47:53.200" XDES="0x1ea6dc3a8" lockMode="X" schedulerid="1" kpid="6200" status="suspended" spid="56" sbid="0" ecid="0" priority="0" trancount="2" lastbatchstarted="2012-10-24T14:47:53.200" lastbatchcompleted="2012-10-24T14:47:53.150" lastattention="1900-01-01T00:00:00.150" clientapp="Microsoft SQL Server Management Studio - Query" hostname="AHMAD-PC" hostpid="6664" loginname="AHMAD-PC\Ahmad" isolationlevel="read committed (2)" xactid="24824" currentdb="7" lockTimeout="4294967295" clientoption1="671088672" clientoption2="128056">
+				<executionStack>
+					<frame procname="adhoc" line="11" stmtstart="58" sqlhandle="0x02000000e42e6139dc2da76624ad5385341e336ceb01cf230000000000000000000000000000000000000000">
+UPDATE [Person].[Person] set [Suffix] = @1  WHERE [BusinessEntityID]=@2     </frame>
+					<frame procname="adhoc" line="11" stmtstart="386" stmtend="518" sqlhandle="0x020000002dbc6e27aef611c6306223ed113ff108314fb1ac0000000000000000000000000000000000000000">
+UPDATE Person.Person SET Suffix='Mr.' WHERE BusinessEntityID=1     </frame>
+				</executionStack>
+				<inputbuf>
+-- Run the below script in connection 1
+BEGIN TRAN
+
+UPDATE Sales.SalesOrderDetail 
+SET OrderQty=10 
+WHERE SalesOrderID=57024 
+AND SalesOrderDetailID=60591 
+
+WAITFOR DELAY '00:00:10'
+
+UPDATE Person.Person SET Suffix='Mr.' WHERE BusinessEntityID=1 
+
+ROLLBACK TRAN
+    </inputbuf>
+			</process>
+		</process-list>
+		<resource-list>
+			<keylock hobtid="72057594046906368" dbid="7" objectname="AdventureWorks2008R2.Sales.SalesOrderDetail" indexname="1" id="lock1efac5000" mode="X" associatedObjectId="72057594046906368">
+				<owner-list>
+					<owner id="process1ea692188" mode="X"/>
+				</owner-list>
+				<waiter-list>
+					<waiter id="process1e770e188" mode="X" requestType="wait"/>
+				</waiter-list>
+			</keylock>
+			<keylock hobtid="72057594045530112" dbid="7" objectname="AdventureWorks2008R2.Person.Person" indexname="1" id="lock1efac6d00" mode="X" associatedObjectId="72057594045530112">
+				<owner-list>
+					<owner id="process1e770e188" mode="X"/>
+				</owner-list>
+				<waiter-list>
+					<waiter id="process1ea692188" mode="X" requestType="wait"/>
+				</waiter-list>
+			</keylock>
+		</resource-list>
+	</deadlock>
+</deadlock-list>

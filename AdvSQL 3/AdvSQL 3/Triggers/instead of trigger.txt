@@ -1,0 +1,142 @@
+CREATE TABLE dbo.T1
+(
+  keycol  INT NOT NULL PRIMARY KEY,
+  datacol INT NOT NULL
+)
+
+CREATE TRIGGER trg_T1_i ON T1 AFTER INSERT
+AS
+
+DECLARE @msg AS VARCHAR(100);
+SET @msg = 'Key: '
+  + CAST((SELECT keycol FROM inserted) AS VARCHAR(10)) + ' inserted.';
+PRINT @msg;
+GO
+
+
+INSERT INTO dbo.T1(keycol, datacol) VALUES(1, 10);
+
+INSERT INTO dbo.T1(keycol, datacol)
+  SELECT 2, 20
+  UNION ALL
+  SELECT 3, 30
+  UNION ALL
+  SELECT 4, 40;
+
+
+CREATE TRIGGER trg_T1_ioi_perrow ON dbo.T1 INSTEAD OF INSERT
+AS
+
+DECLARE @rc AS INT;
+SET @rc = @@rowcount;
+IF @rc = 0 RETURN;
+
+IF @rc = 1
+  INSERT INTO dbo.T1 SELECT * FROM inserted;
+ELSE
+BEGIN
+  DECLARE @keycol AS INT, @datacol AS INT;
+
+  DECLARE Cinserted CURSOR FAST_FORWARD FOR
+    SELECT keycol, datacol FROM inserted;
+  OPEN Cinserted;
+
+  FETCH NEXT FROM Cinserted INTO @keycol, @datacol;
+  WHILE @@fetch_status = 0
+  BEGIN
+    INSERT INTO dbo.T1(keycol, datacol)
+      VALUES(@keycol, @datacol);
+    FETCH NEXT FROM Cinserted INTO @keycol, @datacol;
+  END
+
+  CLOSE Cinserted;
+  DEALLOCATE Cinserted;
+END
+GO
+
+
+INSERT INTO dbo.T1(keycol, datacol) VALUES(5, 50);
+
+INSERT INTO dbo.T1(keycol, datacol)
+  SELECT 6, 60
+  UNION ALL
+  SELECT 7, 70
+  UNION ALL
+  SELECT 8, 80;
+
+======================================
+
+USE tempdb;
+GO
+IF OBJECT_ID('dbo.VOrderTotals') IS NOT NULL
+  DROP VIEW dbo.VOrderTotals;
+GO
+IF OBJECT_ID('dbo.OrderDetails') IS NOT NULL
+  DROP TABLE dbo.OrderDetails;
+GO
+
+CREATE TABLE dbo.OrderDetails
+(
+  oid INT NOT NULL,
+
+  pid INT NOT NULL,
+  qty INT NOT NULL,
+  PRIMARY KEY(oid, pid)
+);
+
+INSERT INTO dbo.OrderDetails(oid, pid, qty) VALUES(10248, 1, 10);
+INSERT INTO dbo.OrderDetails(oid, pid, qty) VALUES(10248, 2, 20);
+INSERT INTO dbo.OrderDetails(oid, pid, qty) VALUES(10248, 3, 30);
+INSERT INTO dbo.OrderDetails(oid, pid, qty) VALUES(10249, 1, 5);
+INSERT INTO dbo.OrderDetails(oid, pid, qty) VALUES(10249, 2, 10);
+INSERT INTO dbo.OrderDetails(oid, pid, qty) VALUES(10249, 3, 15);
+INSERT INTO dbo.OrderDetails(oid, pid, qty) VALUES(10250, 1, 20);
+INSERT INTO dbo.OrderDetails(oid, pid, qty) VALUES(10250, 2, 20);
+INSERT INTO dbo.OrderDetails(oid, pid, qty) VALUES(10250, 3, 20);
+GO
+
+CREATE VIEW dbo.VOrderTotals
+AS
+
+SELECT oid, SUM(qty) AS totalqty
+FROM dbo.OrderDetails
+GROUP BY oid;
+GO
+
+--------
+CREATE TRIGGER trg_VOrderTotals_ioi ON dbo.VOrderTotals INSTEAD OF UPDATE
+AS
+
+IF @@rowcount = 0 RETURN;
+
+IF UPDATE(oid)
+BEGIN
+  RAISERROR('Updates to the OrderID column are not allowed.', 16, 1);
+  ROLLBACK TRAN;
+  RETURN;
+END;
+
+WITH UPD_CTE AS
+(
+  SELECT qty, ROUND(1.*OD.qty / D.totalqty * I.totalqty, 0) AS newqty
+  FROM dbo.OrderDetails AS OD
+    JOIN inserted AS I
+      ON OD.oid = I.oid
+    JOIN deleted AS D
+      ON I.oid = D.oid
+)
+UPDATE UPD_CTE
+  SET qty = newqty;
+GO
+
+--------------
+
+SELECT oid, pid, qty FROM dbo.OrderDetails;
+SELECT oid, totalqty FROM dbo.VOrderTotals;
+
+UPDATE dbo.VOrderTotals
+  SET totalqty = totalqty * 2;
+
+SELECT oid, pid, qty FROM dbo.OrderDetails;
+SELECT oid, totalqty FROM dbo.VOrderTotals;
+

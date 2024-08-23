@@ -1,0 +1,6 @@
+start sqlcmd -S win2012r2\sql2014 -dTuning -i"2_memory pressure.sql"
+start sqlcmd -S win2012r2\sql2014 -dTuning -i"3_memory pressure.sql"
+start sqlcmd -S win2012r2\sql2014 -dTuning -i"4_memory pressure.sql"
+start sqlcmd -S win2012r2\sql2014 -dTuning -i"2_memory pressure.sql"
+start sqlcmd -S win2012r2\sql2014 -dTuning -i"3_memory pressure.sql"
+start sqlcmd -S win2012r2\sql2014 -dTuning -i"4_memory pressure.sql"

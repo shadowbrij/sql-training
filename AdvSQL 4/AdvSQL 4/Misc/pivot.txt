@@ -1,0 +1,96 @@
+Pivoting is a technique that groups and aggregates data, transitioning it from a state of rows
+to a state of columns. In all pivot queries, you need to identify three elements:
+¦¦ What do you want to see on rows? This element is known as the on rows, or grouping
+element.
+¦¦ What do you want to see on columns? This element is known as the on cols, or spreading
+element.
+¦¦ What do you want to see in the intersection of each distinct row and column value?
+This element is known as the data, or aggregation element.
+
+sy:
+WITH PivotData AS
+(
+SELECT
+< grouping column >,
+< spreading column >,
+< aggregation column >
+FROM < source table >
+)
+SELECT < select list >
+FROM PivotData
+PIVOT( < aggregate function >(< aggregation column >)
+FOR < spreading column > IN (< distinct spreading values >) ) AS P;
+ex:return customer IDs on rows, shipper IDs on columns, and the total freight in
+the intersections
+WITH PivotData AS
+(
+SELECT
+customerid , -- grouping column
+shipvia, -- spreading column
+freight -- aggregation column
+FROM Orders
+)
+SELECT customerid, [1], [2], [3]
+FROM PivotData
+PIVOT(SUM(freight) FOR shipvia IN ([1],[2],[3]) ) AS P;
+
+This query generates the following output (shown here in abbreviated form).
+custid 1 2 3
+------- -------- -------- --------
+1 95.03 61.02 69.53
+2 43.90 NULL 53.52
+3 63.09 116.56 88.87
+4 41.95 358.54 71.46
+5 189.44 1074.51 295.57
+6 0.15 126.19 41.92
+7 217.96 215.70 190.00
+8 16.16 175.01 NULL
+9 341.16 419.57 597.14
+10 129.42 162.17 502.36
+
+Unpivoting:
+Unpivoting data can be considered the inverse of pivoting. The starting point is some pivoted
+data. When unpivoting data, you rotate the input data from a state of columns to a state of
+rows
+SELECT < column list >, < names column >, < values column >
+FROM < source table >
+UNPIVOT( < values column > FOR < names column > IN( <source columns> ) ) AS U;
+
+ex:
+
+uSE northwind;
+
+IF OBJECT_ID('FreightTotals') IS NOT NULL DROP TABLE Sales.FreightTotals;
+GO
+WITH PivotData AS
+(
+SELECT
+customerid , -- grouping column
+shipvia, -- spreading column
+freight -- aggregation column
+FROM Orders
+)
+SELECT *
+INTO FreightTotals
+FROM PivotData
+PIVOT( SUM(freight) FOR shipvia IN ([1],[2],[3]) ) AS P;
+--SELECT * FROM FreightTotals;
+SELECT customerid, shipvia, freight
+FROM FreightTotals
+UNPIVOT( freight FOR shipvia IN([1],[2],[3]) ) AS U;
+
+
+This query generates the following output (shown here in abbreviated form).
+custid shipperid freight
+------- ---------- --------
+1 1 95.03
+1 2 61.02
+1 3 69.53
+2 1 43.90
+2 3 53.52
+3 1 63.09
+3 2 116.56
+3 3 88.87
+4 1 41.95
+4 2 358.54
+4 3 71.46

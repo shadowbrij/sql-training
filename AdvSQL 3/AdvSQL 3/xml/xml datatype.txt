@@ -1,0 +1,33 @@
+create table dbo.TestTable(testid int primary key,
+testxml xml)
+
+declare @xmluntyped xml
+set @xmluntyped='<ProductInfo ProductID="1">
+		 <ProductName> Bike </ProductName>
+		 <Color>Black</Color>
+		 <Components>
+ 		   <Wheels>3</Wheels>
+		   <Chains>2</Chains>
+ 		 </Components>
+		</ProductInfo>'
+
+insert into dbo.testtable values(1,@xmluntyped)
+insert into dbo.testtable values(2,cast('<ProductInfo ProductID="1">
+		 <ProductName> car </ProductName>
+		 <Color>while</Color>
+		 <Components>
+ 		   <Wheels>4</Wheels>
+		   <Chains>4</Chains>
+ 		 </Components>
+		</ProductInfo>' as xml))
+		
+		select * from TestTable
+
+--value method demo
+select testid,testxml.value('(/ProductInfo/ProductName)[1]','varchar(50)') as ProdName,
+	testxml.value('(/ProductInfo/Color)[1]','varchar(50)') as Color
+from TestTable
+
+--query method demo
+select testxml.query('/ProductInfo/Components')
+from testtable

@@ -1,0 +1,151 @@
+Sequence
+ 	A sequence is a user-defined schema bound object that generates a sequence of numeric values according to the specification with which the sequence was created. The sequence of numeric values is generated in an ascending or descending order at a defined interval and can be configured to restart (cycle) when exhausted. 
+Sequences, unlike identity columns, are not associated with specific tables. Applications refer to a sequence object to retrieve its next value. The relationship between sequences and tables is controlled by the application. User applications can reference a sequence object and coordinate the values across multiple rows and tables.
+Unlike identity columns values that are generated when rows are inserted, an application can obtain the next sequence number without inserting the row by calling the NEXT VALUE FOR function. Use sp_sequence_get_range to get multiple sequence numbers at once.
+Syntax:
+CREATE SEQUENCE < sequence_name>
+    [ AS [ integer type ] ]
+    [ START WITH <constant> ]
+    [ INCREMENT BY <constant> ]
+    [ { MINVALUE [ <constant>]
+    [ { MAXVALUE [ <constant>]
+    [ CYCLE | { NO CYCLE } ]
+    [ { CACHE [ <constant> ] } | { NO CACHE } ]
+    [ ; ]
+Arguments:
+sequence_name 
+Specifies the unique name by which the sequence is known in the database. Type is sysname.
+Integer type:
+A sequence can be defined as any integer type. The following types are allowed.
+•	tinyint - Range 0 to 255
+•	smallint - Range -32,768 to 32,767
+•	int - Range -2,147,483,648 to 2,147,483,647
+•	bigint - Range -9,223,372,036,854,775,808 to 9,223,372,036,854,775,807
+•	decimal and numeric with a scale of 0.
+•	Any user-defined data type (alias type) that is based on one of the allowed types.
+If no data type is provided, the bigint data type is used as the default.
+[ CYCLE | NO CYCLE ] 
+Property that specifies whether the sequence object should restart from the minimum value (or maximum for descending sequence objects) or throw an exception when its minimum or maximum value is exceeded. The default cycle option for new sequence objects is NO CYCLE.
+Note that cycling restarts from the minimum or maximum value, not from the start value.
+[ CACHE [<constant> ] | NO CACHE ] 
+Increases performance for applications that use sequence objects by minimizing the number of disk IOs that are required to generate sequence numbers.
+For example, if a cache size of 50 is chosen, SQL Server does not keep 50 individual values cached. It only caches the current value and the number of values left in the cache. This means that the amount of memory required to store the cache is always two instances of the data type of the sequence object.
+Examples
+A.	Creating a sequence that increases by 1
+CREATE SEQUENCE Test.CountBy1
+    START WITH 1
+    INCREMENT BY 1 ;
+GO
+
+B.	Creating a sequence using all arguments
+The following example creates a sequence named DecSeq using the decimal data type, having a range from 0 to 255. The sequence starts with 125 and increments by 25 every time that a number is generated. Because the sequence is configured to cycle when the value exceeds the maximum value of 200, the sequence restarts at the minimum value of 100.
+CREATE SEQUENCE Test.DecSeq
+    AS decimal(3,0) 
+    START WITH 125
+    INCREMENT BY 25
+    MINVALUE 100
+    MAXVALUE 200
+    CYCLE
+    CACHE 3
+;
+
+Execute the following statement to see the first value; the START WITH option of 125.
+SELECT NEXT VALUE FOR Test.DecSeq;
+Execute the statement three more times to return 150, 175, and 200.
+Execute the statement again to see how the start value cycles back to the MINVALUE option of 100.
+Execute the following code to confirm the cache size and see the current value.
+
+SELECT cache_size, current
+
+Using Sequences:
+Use sequences instead of identity columns in the following scenarios:
+•	The application requires a number before the insert into the table is made.
+•	The application requires sharing a single series of numbers between multiple tables or multiple columns within a table.
+•	The application must restart the number series when a specified number is reached. For example, after assigning values 1 through 10, the application starts assigning values 1 through 10 again.
+•	The application requires sequence values to be sorted by another field. The NEXT VALUE FOR function can apply the OVER clause to the function call. The OVER clause guarantees that the values returned are generated in the order of the OVER clause's ORDER BY clause.
+•	An application requires multiple numbers to be assigned at the same time. For example, an application needs to reserve five sequential numbers. Requesting identity values could result in gaps in the series if other processes were simultaneously issued numbers. Calling sp_sequence_get_range can retrieve several numbers in the sequence at once.
+•	You need to change the specification of the sequence, such as the increment value.
+Examples:
+A. Using a sequence number in a single table
+The following example creates a schema named Test, a table named Orders, and a sequence named CountBy1, and then inserts rows into the table using the NEXT VALUE FOR function.
+Copy 
+--Create the Test schema
+CREATE SCHEMA Test ;
+GO
+
+-- Create a table
+CREATE TABLE Test.Orders
+    (OrderID int PRIMARY KEY,
+    Name varchar(20) NOT NULL,
+    Qty int NOT NULL);
+GO
+
+-- Create a sequence
+CREATE SEQUENCE Test.CountBy1
+    START WITH 1
+    INCREMENT BY 1 ;
+GO
+
+-- Insert three records
+INSERT Test.Orders (OrderID, Name, Qty)
+    VALUES (NEXT VALUE FOR Test.CountBy1, 'Tire', 2) ;
+INSERT test.Orders (OrderID, Name, Qty)
+    VALUES (NEXT VALUE FOR Test.CountBy1, 'Seat', 1) ;
+INSERT test.Orders (OrderID, Name, Qty)
+    VALUES (NEXT VALUE FOR Test.CountBy1, 'Brake', 1) ;
+GO
+
+-- View the table
+SELECT * FROM Test.Orders ;
+GO
+Here is the result set.
+OrderID  Name    Qty 
+1        Tire    2 
+2        Seat    1 
+3        Brake   2 
+
+
+
+B.
+use adventureworks
+go
+
+CREATE SEQUENCE Sales.SeqOrderIDs AS INT
+MINVALUE 1
+CYCLE;
+
+SELECT NEXT VALUE FOR Sales.SeqOrderIDs;
+
+ALTER SEQUENCE Sales.SeqOrderIDs
+RESTART WITH 1;
+
+IF OBJECT_ID('Sales.MyOrders') IS NOT NULL DROP TABLE Sales.MyOrders;
+GO
+CREATE TABLE Sales.MyOrders
+(
+orderid INT NOT NULL
+CONSTRAINT PK_MyOrders_orderid PRIMARY KEY,
+custid INT NOT NULL
+CONSTRAINT CHK_MyOrders_custid CHECK(custid > 0),
+empid INT NOT NULL
+CONSTRAINT CHK_MyOrders_empid CHECK(empid > 0),
+orderdate DATE NOT NULL
+);
+
+INSERT INTO Sales.MyOrders(orderid, custid, empid, orderdate) VALUES
+(NEXT VALUE FOR Sales.SeqOrderIDs, 1, 2, '20120620'),
+(NEXT VALUE FOR Sales.SeqOrderIDs, 1, 3, '20120620'),
+(NEXT VALUE FOR Sales.SeqOrderIDs, 2, 2, '20120620');
+
+INSERT INTO Sales.MyOrders(orderid, custid, empid, orderdate)
+SELECT
+NEXT VALUE FOR Sales.SeqOrderIDs OVER(ORDER BY orderid),
+custid, empid, orderdate
+FROM Sales.myOrders
+WHERE custid = 1;
+
+SELECT * FROM Sales.MyOrders;
+
+
+
+

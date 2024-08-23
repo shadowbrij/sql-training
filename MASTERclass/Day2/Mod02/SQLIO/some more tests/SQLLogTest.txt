@@ -1,0 +1,17 @@
+call sqlio -kW -s60 -fsequential -o1 -b4 -LS -Fparam.txt
+call sqlio -kW -s60 -fsequential -o1 -b8 -LS -Fparam.txt
+call sqlio -kW -s60 -fsequential -o1 -b16 -LS -Fparam.txt
+call sqlio -kW -s60 -fsequential -o1 -b32 -LS -Fparam.txt
+call sqlio -kW -s60 -fsequential -o1 -b64 -LS -Fparam.txt
+call sqlio -t8 -kR -s360 -fsequential -o8 –b8 -LS -Fparam.txt
+call sqlio -t16 -kR -s360 -fsequential -o16 -b64 -LS -Fparam.txt
+call sqlio -t32 -kR -s360 -fsequential -o32 -b128 -LS -Fparam.txt
+call sqlio -t64 -kR -s360 -fsequential -o64 -b256 -LS -Fparam.txt
+call sqlio -t128 -kR -s360 -fsequential -o64 -b256 -LS -Fparam.txt
+call sqlio -t256 -kR -s360 -fsequential -o128 -b256 -LS -Fparam.txt
+call sqlio -t8 -kW -s360 -fsequential -o8 –b8 -LS -Fparam.txt
+call sqlio -t16 -kW -s360 -fsequential -o8 -b64 -LS -Fparam.txt
+call sqlio -t32 -kW -s360 -fsequential -o8 -b128 -LS -Fparam.txt
+call sqlio -t64 -kW -s360 -fsequential -o8 -b256 -LS -Fparam.txt
+call sqlio -t128 -kW -s360 -fsequential -o64 -b256 -LS -Fparam.txt
+call sqlio -t256 -kW -s360 -fsequential -o128 -b256 -LS -Fparam.txt

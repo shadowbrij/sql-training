@@ -1,0 +1,10 @@
+use AdventureWorks2008
+Go
+
+Begin Transaction
+
+update HumanResources.Department
+set Name = 'Test'
+where DepartmentID=1
+
+--RollBack Transaction

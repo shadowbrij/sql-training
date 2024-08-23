@@ -1,0 +1,20 @@
+EXEC AdventureWorks2014.dbo.usp_getSalesCustomer
+GO
+EXEC AdventureWorks2014.dbo.usp_getSalesCustomer
+GO
+EXEC AdventureWorks2014.dbo.usp_getSalesCustomer
+GO
+EXEC AdventureWorks2014.dbo.usp_getSalesCustomer
+GO
+EXEC AdventureWorks2014.dbo.usp_getSalesCustomer
+GO
+EXEC AdventureWorks2014.dbo.usp_getSalesCustomer
+GO
+EXEC AdventureWorks2014.dbo.usp_getSalesCustomer
+GO
+EXEC AdventureWorks2014.dbo.usp_getSalesCustomer
+GO
+EXEC AdventureWorks2014.dbo.usp_getSalesCustomer
+GO
+EXEC AdventureWorks2014.dbo.usp_getSalesCustomer
+GO

@@ -1,0 +1,26 @@
+In SQL Server Management Studio, open the QueryEEdata.sql Transact-SQL file from the folder D:\LabFiles\Lab09\Lab09E\Ex01\Starter\.
+Select the code under the comment restart the event session and click Execute.
+Open the UpdateQuery.sql Transact-SQL file from the folder D:\LabFiles\Lab09\Lab09E\Ex01\Starter\ and click Execute.
+Open the selectQuery.sql Transact-SQL file from the folder D:\LabFiles\Lab09\Lab09E\Ex01\Starter\ and click Execute. This will result in deadlock.
+In UpdateQuery.sql query window, click on Cancel Execution Query to cancel the execution of the query.
+
+In QueryEEData.sql query window, select the code under the comment Get deadlock data and click Execute.
+In the Results pane click on the XML output to open the deadlock xml in a new query window.
+Save the xml as deadlock.xdl in the folder D:\LabFiles\Lab09\Lab09E\Ex01\Solution\.
+In the folder D:\LabFiles\Lab09\Lab09E\Ex01\Solution\ double click on the file deadlock.xdl.
+In the deadlock.xdl window observe the victim process has key lock in shared mode on nci_big_tbl_conInt1 and waiting for key lock in shared mode on ci_big_tbl.
+The other process had exclusive lock on ci_big_tbl and requesting for exclusive lock on nci_big_tbl_colInt1. This resulted in deadlock.
+
+In UpdateQuery.sql query window, click Execute.
+Open the ReadUncommittedSelect.sql Transact-SQL file from the folder D:\LabFiles\Lab09\Lab09E\Ex01\Starter\ and click Execute.
+Observe the execution succeeds. 
+Open the SnapshotSelect.sql Transact-SQL file from the folder D:\LabFiles\Lab09\Lab09E\Ex01\Starter\ and click Execute.
+Observe the execution succeeds.
+Open the CoveringIndexSelect.sql Transact-SQL file from the folder D:\LabFiles\Lab09\Lab09E\Ex01\Starter\ and click Execute.
+Observe the execution succeeds.
+In UpdateQuery.sql query window, click on Cancel Execution Query to cancel the execution of the query.
+Open the cleanup.sql Transact-SQL file from the folder D:\LabFiles\Lab09\Lab09E\Ex01\Starter\ and click Execute.
+Close SQL Server Management Studio without saving any changes.
+
+
+

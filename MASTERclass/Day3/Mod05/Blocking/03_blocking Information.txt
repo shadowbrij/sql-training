@@ -1,0 +1,21 @@
+--technique 1
+
+select * from sys.dm_os_waiting_tasks where session_id>50
+
+
+-- strategic approach
+select * from sys.dm_os_wait_stats
+order by wait_time_ms DESC
+
+--technique 2
+exec sp_who2
+
+
+-- technique 3
+
+select * from sys.dm_tran_locks
+
+
+-- extracting sql statements
+
+DBCC INPUTBUFFER(54)

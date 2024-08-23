@@ -1,0 +1,1 @@
+sqlcmd -E -Q"sp_configure 'max server memory',10000;reconfigure" -S.\sql2014

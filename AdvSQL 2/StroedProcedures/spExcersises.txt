@@ -1,0 +1,22 @@
+1. write a procedure to get the yearly bike sales 
+
+2. write a procedure to get yearly product sales for the given productcategoryid
+
+3. in the above procedure use intial value for the parameter
+
+4. write a procedure to get employee details based on firstname and lastname search
+
+5. write a procedure to output YTDSales for given employeeid
+
+6. write a procedure to output YTDSales for given sales person lastname
+implement procedure with error handling 
+that sets special return code values for various errors. 
+The following table shows the integer value that is assigned by the procedure to each possible error, 
+and the corresponding meaning for each value.
+Return code value	Meaning	
+-----------------	--------
+0					Successful execution
+1					Required parameter value is not specified.			
+2					Specified parameter value is not valid.
+3					Error has occurred getting sales value.
+4					NULL sales value found for the salesperson.*/

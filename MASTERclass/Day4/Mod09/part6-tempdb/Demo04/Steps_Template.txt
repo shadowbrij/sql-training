@@ -1,0 +1,10 @@
+In SQL Server Management Studio open the TempProd.sql Transact-SQL file from the folder D:\Mod09\DemoFiles\Demo04\ and click Execute. This will create the stored procedure use_getSalesOrderDetails_prc that use a temp table to populate some data and process it before dropping the table.
+Open the Query.sql Transact-SQL file from the folder D:\Mod09\DemoFiles\Demo04\ and click Execute. This will execute the stored procedure use_getSalesOrderDetails_prc for 100 iterations.
+Open the TempdbUsage.sql Transact-SQL file from the folder D:\Mod09\DemoFiles\Demo04\. Select the code under the comment find empdb usage and click Execute. This will return the sessions and their tempdb space usage details.
+In the Results pane note the session_id and space usage of the highest space using session. Change the parameter for the command under the comment find query to the session_id noted in step xxx.
+Select the code under the comment Find query and click Execute. In the Results pane observe the statement from Query.sql is returned.
+Open the PhyQuery.sql Transact-SQL file from the folder D:\Mod09\DemoFiles\Demo04\ and click Execute. This will alter the procedure use_getSalesOrderDetails_prc to use physical table instead of temp table in tempdb.
+In Query.sql query window, click Execute. This will execute the stored procedure use_getSalesOrderDetails_prc for 100 iterations.
+Repeat step xxx and observe the space usage of tempdb has not increased by running the procedure 100 times in step xxx.
+Close SQL Server Management Studio without saving any changes.
+

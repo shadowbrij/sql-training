@@ -1,0 +1,80 @@
+DDL Triggers:
+-------------
+create table test
+(id int,name char(10))
+
+
+CREATE TRIGGER safety
+ON DATABASE
+FOR DROP_TABLE, ALTER_TABLE
+AS
+	PRINT 'You must disable Trigger "Safety" to drop or alter tables!'
+	ROLLBACK;
+
+drop table test
+
+--disabling
+
+disable trigger safety on database
+
+
+-----------------------------
+ex: 2: Auditing demo
+------------------------------
+IF OBJECT_ID('dbo.AuditDDLEvents') IS NOT NULL
+  DROP TABLE dbo.AuditDDLEvents;
+GO
+
+CREATE TABLE dbo.AuditDDLEvents
+(
+  lsn              INT      NOT NULL IDENTITY,
+  posttime         DATETIME NOT NULL,
+  eventtype        sysname  NOT NULL,
+  loginname        sysname  NOT NULL,
+  schemaname       sysname  NOT NULL,
+  objectname       sysname  NOT NULL,
+  targetobjectname sysname  NOT NULL,
+  sqlcmd			sysname not null,
+  eventdata        XML      NOT NULL,
+  CONSTRAINT PK_AuditDDLEvents PRIMARY KEY(lsn)
+);
+GO
+
+CREATE TRIGGER trg_audit_ddl_events ON DATABASE FOR DDL_DATABASE_LEVEL_EVENTS
+AS
+
+DECLARE @eventdata AS XML;
+SET @eventdata = eventdata();
+
+INSERT INTO dbo.AuditDDLEvents(
+  posttime, eventtype, loginname, schemaname,
+  objectname, targetobjectname,sqlcmd, eventdata)
+  VALUES(
+    CAST(@eventdata.query('data(//PostTime)')         AS VARCHAR(23)),
+    CAST(@eventdata.query('data(//EventType)')        AS sysname),
+    CAST(@eventdata.query('data(//LoginName)')        AS sysname),
+    CAST(@eventdata.query('data(//SchemaName)')       AS sysname),
+    CAST(@eventdata.query('data(//ObjectName)')       AS sysname),
+    CAST(@eventdata.query('data(//TargetObjectName)') AS sysname),
+	cast(@eventdata.query('data(//TSQLCommand//CommandText)') as sysname),
+    @eventdata);
+GO
+
+-------------
+
+CREATE TABLE dbo.T1(col1 INT NOT NULL PRIMARY KEY);
+ALTER TABLE dbo.T1 ADD col2 INT NULL;
+ALTER TABLE dbo.T1 ALTER COLUMN col2 INT NOT NULL;
+CREATE NONCLUSTERED INDEX idx1 ON dbo.T1(col2);
+
+---------------------
+
+SELECT * FROM dbo.AuditDDLEvents;
+--------------
+
+Eventdata():
+	Returns information about server or database events. EVENTDATA is called when an event notification fires, and the results are returned to the specified service broker. EVENTDATA can also be used inside the body of a DDL or logon trigger.
+sysname:
+	sysname is a system-supplied user-defined data type that is functionally equivalent to nvarchar(128), except that it is not nullable. sysname is used to reference database object names.
+
+

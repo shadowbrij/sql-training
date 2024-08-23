@@ -1,0 +1,91 @@
+﻿<event name="xml_deadlock_report" package="sqlserver" timestamp="2012-10-21T19:48:12.197Z">
+  <data name="xml_report">
+    <value>
+      <deadlock>
+        <victim-list>
+          <victimProcess id="process1dee1a928" />
+        </victim-list>
+        <process-list>
+          <process id="process1dee1a928" taskpriority="0" logused="0" waitresource="KEY: 7:72057594046906368 (34465b899acf)" waittime="4362" ownerId="1351667" transactionname="user_transaction" lasttranstarted="2012-10-22T01:18:02.830" XDES="0x1ea7ef6a8" lockMode="X" schedulerid="2" kpid="6568" status="suspended" spid="56" sbid="0" ecid="0" priority="0" trancount="2" lastbatchstarted="2012-10-22T01:18:02.830" lastbatchcompleted="2012-10-22T01:18:02.830" lastattention="1900-01-01T00:00:00.830" clientapp="Microsoft SQL Server Management Studio - Query" hostname="AHMAD-PC" hostpid="6520" loginname="AHMAD-PC\Ahmad" isolationlevel="repeatable read (3)" xactid="1351667" currentdb="7" lockTimeout="4294967295" clientoption1="671088672" clientoption2="128056">
+            <executionStack>
+              <frame procname="adhoc" line="10" stmtstart="44" sqlhandle="0x02000000df04e6321b2da93e6d389a4f397f67df34c260ba0000000000000000000000000000000000000000">
+UPDATE [Sales].[SalesOrderDetail] set [OrderQty] = @1  WHERE [SalesOrderID]=@2 AND [SalesOrderDetailID]=@3    </frame>
+              <frame procname="adhoc" line="10" stmtstart="414" stmtend="632" sqlhandle="0x02000000442714078e374742addcdd039c339208f91450be0000000000000000000000000000000000000000">
+UPDATE Sales.SalesOrderDetail 
+SET OrderQty=10 
+WHERE SalesOrderID=57024 
+AND SalesOrderDetailID=60591    </frame>
+            </executionStack>
+            <inputbuf>
+SET TRANSACTION ISOLATION LEVEL REPEATABLE READ
+BEGIN TRAN
+SELECT OrderQty,LineTotal 
+FROM Sales.SalesOrderDetail 
+WHERE SalesOrderID=57024 
+AND SalesOrderDetailID=60591 
+
+WAITFOR DELAY '00:00:05'
+
+UPDATE Sales.SalesOrderDetail 
+SET OrderQty=10 
+WHERE SalesOrderID=57024 
+AND SalesOrderDetailID=60591 
+
+ROLLBACK TRAN
+
+   </inputbuf>
+          </process>
+          <process id="process1d46d0928" taskpriority="0" logused="0" waitresource="KEY: 7:72057594046906368 (34465b899acf)" waittime="2531" ownerId="1351674" transactionname="user_transaction" lasttranstarted="2012-10-22T01:18:04.663" XDES="0x1ea5dcd28" lockMode="X" schedulerid="1" kpid="780" status="suspended" spid="55" sbid="0" ecid="0" priority="0" trancount="2" lastbatchstarted="2012-10-22T01:18:04.663" lastbatchcompleted="2012-10-22T01:18:04.630" lastattention="1900-01-01T00:00:00.630" clientapp="Microsoft SQL Server Management Studio - Query" hostname="AHMAD-PC" hostpid="6520" loginname="AHMAD-PC\Ahmad" isolationlevel="repeatable read (3)" xactid="1351674" currentdb="7" lockTimeout="4294967295" clientoption1="671090784" clientoption2="390200">
+            <executionStack>
+              <frame procname="adhoc" line="10" stmtstart="44" sqlhandle="0x02000000df04e6321b2da93e6d389a4f397f67df34c260ba0000000000000000000000000000000000000000">
+UPDATE [Sales].[SalesOrderDetail] set [OrderQty] = @1  WHERE [SalesOrderID]=@2 AND [SalesOrderDetailID]=@3    </frame>
+              <frame procname="adhoc" line="10" stmtstart="414" stmtend="632" sqlhandle="0x02000000442714078e374742addcdd039c339208f91450be0000000000000000000000000000000000000000">
+UPDATE Sales.SalesOrderDetail 
+SET OrderQty=10 
+WHERE SalesOrderID=57024 
+AND SalesOrderDetailID=60591    </frame>
+            </executionStack>
+            <inputbuf>
+SET TRANSACTION ISOLATION LEVEL REPEATABLE READ
+BEGIN TRAN
+SELECT OrderQty,LineTotal 
+FROM Sales.SalesOrderDetail 
+WHERE SalesOrderID=57024 
+AND SalesOrderDetailID=60591 
+
+WAITFOR DELAY '00:00:05'
+
+UPDATE Sales.SalesOrderDetail 
+SET OrderQty=10 
+WHERE SalesOrderID=57024 
+AND SalesOrderDetailID=60591 
+
+ROLLBACK TRAN
+
+   </inputbuf>
+          </process>
+        </process-list>
+        <resource-list>
+          <keylock hobtid="72057594046906368" dbid="7" objectname="AdventureWorks2008R2.Sales.SalesOrderDetail" indexname="1" id="lock1d577ed00" mode="S" associatedObjectId="72057594046906368">
+            <owner-list>
+              <owner id="process1d46d0928" mode="S" />
+              <owner id="process1d46d0928" mode="X" requestType="convert" />
+            </owner-list>
+            <waiter-list>
+              <waiter id="process1dee1a928" mode="X" requestType="convert" />
+            </waiter-list>
+          </keylock>
+          <keylock hobtid="72057594046906368" dbid="7" objectname="AdventureWorks2008R2.Sales.SalesOrderDetail" indexname="1" id="lock1d577ed00" mode="S" associatedObjectId="72057594046906368">
+            <owner-list>
+              <owner id="process1dee1a928" mode="S" />
+              <owner id="process1dee1a928" mode="X" requestType="convert" />
+            </owner-list>
+            <waiter-list>
+              <waiter id="process1d46d0928" mode="X" requestType="convert" />
+            </waiter-list>
+          </keylock>
+        </resource-list>
+      </deadlock>
+    </value>
+  </data>
+</event>

@@ -1,0 +1,8 @@
+sqlio -kR -t8 -s1800 -o16 -frandom -b8 -LS -Fparam.txt
+
+sqlio -kW -t8 -s1800 -o16 -frandom -b8 -LS -Fparam.txt
+
+sqlio -kR -t8 -s1800 -o16 -fsequential -b8 -LS -Fparam.txt
+
+sqlio -kW -t8 -s1800 -o16 -fsequential -b8 -LS -Fparam.txt
+

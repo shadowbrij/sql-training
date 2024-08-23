@@ -1,0 +1,8 @@
+SELECT %%lockres%%
+,*
+FROM dbo.Conn2
+WHERE %%LockRes%% = '1:118:0'
+SELECT %%lockres%%
+,*
+FROM dbo.Conn1
+WHERE %%LockRes%% = '1:114:0'

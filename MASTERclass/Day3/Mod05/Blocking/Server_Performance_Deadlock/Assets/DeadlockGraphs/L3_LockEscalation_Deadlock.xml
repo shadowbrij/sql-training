@@ -1,0 +1,65 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<deadlock-list>
+  <deadlock victim="process5cdb88">
+    <process-list>
+      <process id="process5cdb88" waitresource="HOBT: 8:72057594058440704 " spid="55">
+        <executionStack>
+          <frame procname="adhoc" line="12" stmtstart="26" sqlhandle="0x02000000f76d6918e055761329972e5f2d9f00e13c251f25">
+SELECT [TerritoryID] FROM [Sales].[Customer] WHERE [CustomerID]=@1     </frame>
+          <frame procname="adhoc" line="12" stmtstart="686" stmtend="810" sqlhandle="0x020000002da6921120fc8e876643135934a14c089fd0b948">
+SELECT TerritoryID FROM Sales.Customer WHERE CustomerID=19800     </frame>
+        </executionStack>
+        <inputbuf>
+-- Connection 1 
+--SELECT lock_escalation_desc FROM sys.tables WHERE name = 'Customer';
+--ALTER TABLE Sales.Customer SET (LOCK_ESCALATION = TABLE)
+--ALTER TABLE Sales.Customer SET (LOCK_ESCALATION = AUTO)
+-- Access partition 1 
+BEGIN TRAN
+
+UPDATE Sales.Customer SET TerritoryID=1 WHERE CustomerID &lt; 18000
+
+WAITFOR DELAY '00:00:05'
+
+SELECT TerritoryID FROM Sales.Customer WHERE CustomerID=19800
+Rollback
+    </inputbuf>
+      </process>
+      <process id="process599948" waitresource="HOBT: 8:72057594058375168 ">
+        <executionStack>
+          <frame procname="adhoc" line="7" stmtstart="24" sqlhandle="0x02000000aa544e2629476ffa1341ba8fc9c9424d0aa848e4">
+SELECT [TerritoryID] FROM [Sales].[Customer] WHERE [CustomerID]=@1     </frame>
+          <frame procname="adhoc" line="7" stmtstart="252" sqlhandle="0x02000000ea4f88212062976221371729e3e3da9620c20041">
+SELECT TerritoryID FROM Sales.Customer WHERE CustomerID=100     </frame>
+        </executionStack>
+        <inputbuf>
+BEGIN TRAN
+
+UPDATE Sales.Customer SET TerritoryID=1 WHERE CustomerID between 18500 and 26200
+
+WAITFOR DELAY '00:00:05'
+
+SELECT TerritoryID FROM Sales.Customer WHERE CustomerID=100
+    </inputbuf>
+      </process>
+    </process-list>
+    <resource-list>
+      <hobtlock hobtid="72057594058440704" subresource="FULL" dbid="8" objectname="AdventureWorks2008R2.Sales.Customer" indexname="PK_Customer_CustomerID" id="lock8895d600" mode="X" associatedObjectId="72057594058440704">
+        <owner-list>
+          <owner id="process599948" mode="X" />
+        </owner-list>
+        <waiter-list>
+          <waiter id="process5cdb88" mode="IS" requestType="convert" />
+        </waiter-list>
+      </hobtlock>
+      <hobtlock hobtid="72057594058375168" subresource="FULL" dbid="8" objectname="AdventureWorks2008R2.Sales.Customer" indexname="PK_Customer_CustomerID" id="lock824fe400" mode="X" associatedObjectId="72057594058375168">
+        <owner-list>
+          <owner id="process5cdb88" mode="X" />
+        </owner-list>
+        <waiter-list>
+          <waiter id="process599948" mode="IS" requestType="convert" />
+        </waiter-list>
+      </hobtlock>
+    </resource-list>
+  </deadlock>
+</deadlock-list>

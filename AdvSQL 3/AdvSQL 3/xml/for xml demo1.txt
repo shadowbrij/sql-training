@@ -1,0 +1,48 @@
+use adventureworks
+go
+
+SELECT Name, ListPrice, Color
+FROM Production.Product [Product]
+WHERE Name LIKE '%Chain%'
+ORDER BY Name
+FOR XML RAW,elements
+go
+-----
+SELECT Name, ListPrice, Color
+FROM Production.Product [Product]
+WHERE Name LIKE '%Chain%'
+ORDER BY Name
+FOR XML RAW('chainElement'),elements 
+go
+-----------
+SELECT Name, ListPrice, Color
+FROM Production.Product [Product]
+WHERE Name LIKE '%Chain%'
+ORDER BY Name
+FOR XML RAW('chainElement'),elements xsinil
+go
+-------
+SELECT Name, ListPrice, Color
+FROM Production.Product [Product]
+WHERE Name LIKE '%Chain%'
+ORDER BY Name
+FOR XML RAW('chainElement'),elements xsinil,root('ChainDoc')
+go
+-----------
+SELECT
+Color,
+Offer.SpecialOfferId Id,
+Product.ProductId Id,
+Name,
+Description [Desc],
+Size
+FROM Sales.SpecialOffer Offer
+JOIN Sales.SpecialOfferProduct OP ON
+OP.SpecialOfferId = Offer.SpecialOfferId
+JOIN Production.Product Product ON
+Product.ProductId = OP.ProductId
+WHERE Name LIKE 'Mountain Bike%'
+FOR XML AUTO, ELEMENTS XSINIL, ROOT('MountainBikeSpecials')
+go
+
+----------

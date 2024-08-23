@@ -1,0 +1,173 @@
+﻿AM
+----------
+
+Memory
+	Available MBytes
+	Page Faults/sec" />
+            <counter name="Pages/sec" />
+          </counters>
+        </category>
+        <category name="Process">
+          <counters>
+            <counter name="Working Set" />
+          </counters>
+          <instances>
+            <instance name="sqlservr" />
+          </instances>
+        </category>
+        <category name="SQLServer:Memory Manager">
+          <counters>
+            <counter name="Memory Grants Pending" />
+            <counter name="Optimizer Memory (KB)" />
+            <counter name="Lock Memory (KB)" />
+            <counter name="Granted Workspace Memory (KB)" />
+            <counter name="Total Server Memory (KB)" />
+            <counter name="Target Server Memory (KB)" />
+          </counters>
+        </category>
+        <category name="SQLServer:Plan Cache">
+          <counters>
+            <counter name="Cache Pages" />
+            <counter name="Cache Hit Ratio" />
+          </counters>
+        </category>
+        <category name="SQLServer:Buffer Manager">
+          <counters>
+            <counter name="Total pages" />
+            <counter name="Buffer cache hit ratio" />
+            <counter name="Page life expectancy" />
+          </counters>
+        </category>
+        <category name="LogicalDisk">
+          <counters>
+            <counter name="Avg. Disk sec/Read" />
+            <counter name="Avg. Disk sec/Write" />
+            <counter name="Disk Read Bytes/sec" />
+            <counter name="Disk Write Bytes/sec" />
+          </counters>
+          <instances>
+            <instance name="*" />
+          </instances>
+        </category>
+        <category name="SQLServer:Wait Statistics">
+          <counters>
+            <counter name="Page IO latch waits" />
+            <counter name="Network IO waits" />
+          </counters>
+          <instances>
+            <instance name="Average wait time (ms)" />
+            <instance name="Cumulative wait time (ms) per second" />
+          </instances>
+        </category>
+        <category name="SQLServer:Access Methods">
+          <counters>
+            <counter name="Full Scans/sec" />
+            <counter name="Range Scans/sec" />
+            <counter name="Probe Scans/sec" />
+            <counter name="Forwarded Records/sec" />
+            <counter name="Page Splits/sec" />
+            <counter name="Pages Allocated/sec" />
+            <counter name="Table Lock Escalations/sec" />
+          </counters>
+        </category>
+        <category name="Processor">
+          <counters>
+            <counter name="% Processor Time" />
+          </counters>
+          <instances>
+            <instance name="_Total" />
+          </instances>
+        </category>
+        <category name="SQLServer:SQL Statistics">
+          <counters>
+            <counter name="Auto-Param Attempts/sec" />
+            <counter name="SQL Compilations/sec" />
+            <counter name="SQL Re-Compilations/sec" />
+          </counters>
+        </category>
+        <category name="Network Interface">
+          <counters>
+            <counter name="Bytes Received/sec" />
+            <counter name="Bytes Sent/sec" />
+            <counter name="Output Queue Length" />
+          </counters>
+        </category>
+        <category name="SQLServer:General Statistics">
+          <counters>
+            <counter name="User Connections" />
+            <counter name="Logins/sec" />
+            <counter name="Logouts/sec" />
+            <counter name="Active Temp Tables" />
+            <counter name="Temp Tables Creation Rate" />
+          </counters>
+        </category>
+        <category name="SQLServer:SQL Statistics">
+          <counters>
+            <counter name="Batch Requests/sec" />
+          </counters>
+        </category>
+        <category name="SQLServer:Databases">
+          <counters>
+            <counter name="Transactions/sec" />
+          </counters>
+        </category>
+        <category name="SQLServer:Locks">
+          <counters>
+            <counter name="Lock Requests/sec" />
+            <counter name="Lock Wait Time (ms)" />
+            <counter name="Average Wait Time (ms)" />
+          </counters>
+        </category>
+        <category name="SQLServer:Latches">
+          <counters>
+            <counter name="Average Latch Wait Time (ms)" />
+          </counters>
+        </category>
+      </categories>
+    </counterInfo>
+    <serverInfo>
+      <servers>
+
+
+PS/AH
+
+Log Bytes Flushed per sec  → Tlog Flush rate
+
+
+
+MS-WP
+
+System, Process or Queue Length
+Physical Disk, Avg Queue Length
+
+
+SQL Server Access Methods, Index Searches/Sec
+
+
+JK
+
+SQLServer:Buffer Manager\Lazy Writes/sec
+• SQLServer:Buffer Manager\Free list stalls/sec
+SQLServer:General Statistics\Processes Blocked
+SQLServer:Locks\Lock Waits/sec
+SQLServer:Memory Manager\Memory Grants Pending
+
+
+PAL
+NAME="SQLServer:Access Methods Workfiles Created/sec"
+NAME="SQLServer:Access Methods Worktables Created/sec"
+
+NAME="\SQLServer:Buffer Manager\Checkpoint pages/sec"
+PRIMARYDATASOURCE="\SQLServer:Buffer Manager\Free pages"
+NAME="SQLServer:Buffer Manager Lazy writes/sec"
+NAME="SQLServer:Buffer Manager Page lookups/sec"
+NAME="SQLServer:Buffer Manager Page reads/sec"
+NAME="SQLServer:Buffer Manager Page writes/sec"
+
+NAME="SQLServer:Locks Lock Timeouts/sec"
+NAME="SQLServer:Locks Number of Deadlocks/sec"
+
+
+PAL - Quick system overview
+
+NAME="Processor % Privileged Time"

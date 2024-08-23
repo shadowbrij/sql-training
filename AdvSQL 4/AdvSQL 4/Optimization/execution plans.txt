@@ -1,0 +1,70 @@
+--full table scan
+select * into saless from sales
+select * from sales2
+
+--clustered index scan
+select * from sales
+
+--clustered index seek
+
+select * from sales where saleid=' '
+
+--index seeks
+
+create nonclustered index ix_productsearch on sales
+(prodid asc)with (pad_index=off,statistics_norecompute=off,sort_in_tempdb=off)
+go
+
+select saleid,productid from sales where productid=1 
+
+select saleid,productid,employeeid from sales where productid=1 and employeeid=8
+--include employeeid to the ix_productsearch index
+
+--join(loop)
+
+select saleid,name,price,quantity
+from products p join sales s 
+on p.productid=s.productid
+option(loop join)
+
+--add quantity to the index 
+
+--join(merge)
+
+select saleid,name,price,quantity
+from products p join sales s 
+on p.productid=s.productid
+option(merge join)
+
+
+--join(haash)
+
+select saleid,name,price,quantity
+from products p join sales s 
+on p.productid=s.productid
+option(hash join)
+
+set showplan_all on
+
+set showplan_all off
+
+sp_helpstats 'sales','all'
+
+dbcc show_statistics('sales','PK__Sales__1EE3C41F0273ECF3')
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

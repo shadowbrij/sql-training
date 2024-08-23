@@ -1,0 +1,66 @@
+
+Exporting table data as xml file:
+--------------------------------
+exec sp_configure 'show advanced options',1
+go
+reconfigure
+go
+
+exec sp_configure 'xp_cmdshell',1
+go
+reconfigure
+go
+
+declare @sql varchar(8000)
+set @sql='bcp "SELECT * from honey.university.dbo.emp for xml raw(''Emp''),elements,root(''Emps'')" queryout "e:\venkat\emps.xml" -c -T -S Honey'
+exec xp_cmdshell @sql
+
+
+Displaying xml data in table format:
+----------------------------------
+
+1. using static xml document
+
+DECLARE @idoc int, @doc varchar(1000);
+SET @doc ='
+<ROOT>
+<Customer CustomerID="VINET" ContactName="Paul Henriot">
+   <Order CustomerID="VINET" EmployeeID="5" OrderDate="1996-07-04T00:00:00">
+      <OrderDetail OrderID="10248" ProductID="11" Quantity="12"/>
+      <OrderDetail OrderID="10248" ProductID="42" Quantity="10"/>
+   </Order>
+</Customer>
+<Customer CustomerID="LILAS" ContactName="Carlos Gonzlez">
+   <Order CustomerID="LILAS" EmployeeID="3" OrderDate="1996-08-16T00:00:00">
+      <OrderDetail OrderID="10283" ProductID="72" Quantity="3"/>
+   </Order>
+</Customer>
+</ROOT>';
+--Create an internal representation of the XML document.
+EXEC sp_xml_preparedocument @idoc OUTPUT, @doc;
+-- Execute a SELECT statement that uses the OPENXML rowset provider.
+SELECT    *
+FROM       OPENXML (@idoc, '/ROOT/Customer',1)
+            WITH (CustomerID  varchar(10),
+                  ContactName varchar(20));
+
+---------------------------------
+2. using dynamic xml document
+
+declare @dochandle int
+declare @xmldoc xml
+select @xmldoc =cast(bulkcolumn as xml) from openrowset(bulk N'e:\venkat\customers.xml',single_blob) x
+
+exec sp_xml_preparedocument @dochandle output,@xmldoc;
+
+SELECT *
+FROM   OPENXML (@dochandle, '/ROOT/Customer/Order/OrderDetail')
+         WITH (OrderID       int         '../@OrderID',
+               CustomerID  varchar(10) '../@CustomerID',
+               OrderDate   datetime    '../@OrderDate',
+               ProdID      int         '@ProductID',
+               Qty         int         '@Quantity')
+-- Remove the internal representation of the XML document.
+EXEC sp_xml_removedocument @docHandle
+
+---------------------

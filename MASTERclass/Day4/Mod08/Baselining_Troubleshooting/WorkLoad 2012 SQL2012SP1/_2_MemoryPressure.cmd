@@ -1,0 +1,6 @@
+start sqlcmd -S sql2008\sql2k8 -dTuning -i"2_memory pressure.sql"
+start sqlcmd -S sql2008\sql2k8 -dTuning -i"3_memory pressure.sql"
+start sqlcmd -S sql2008\sql2k8 -dTuning -i"4_memory pressure.sql"
+start sqlcmd -S sql2008\sql2k8 -dTuning -i"2_memory pressure.sql"
+start sqlcmd -S sql2008\sql2k8 -dTuning -i"3_memory pressure.sql"
+start sqlcmd -S sql2008\sql2k8 -dTuning -i"4_memory pressure.sql"

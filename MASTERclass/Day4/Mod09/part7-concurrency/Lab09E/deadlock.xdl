@@ -1,0 +1,65 @@
+﻿<deadlock>
+  <victim-list>
+    <victimProcess id="processf1760ca8" />
+  </victim-list>
+  <process-list>
+    <process id="processf1760ca8" taskpriority="0" logused="0" waitresource="KEY: 26:72057594040614912 (241332e1ddb0)" waittime="1358" ownerId="3963644" transactionname="SELECT" lasttranstarted="2015-03-02T08:17:52.657" XDES="0xff225a20" lockMode="S" schedulerid="4" kpid="6944" status="suspended" spid="59" sbid="0" ecid="0" priority="0" trancount="0" lastbatchstarted="2015-03-02T08:17:52.607" lastbatchcompleted="2015-03-02T08:17:52.607" lastattention="1900-01-01T00:00:00.607" clientapp="Microsoft SQL Server Management Studio - Query" hostname="MANU-PC" hostpid="7444" loginname="Manu-PC\Manu" isolationlevel="read committed (2)" xactid="3963644" currentdb="26" lockTimeout="4294967295" clientoption1="673187936" clientoption2="390200">
+      <executionStack>
+        <frame procname="adhoc" line="6" stmtstart="160" stmtend="366" sqlhandle="0x020000006eed62044e2371ecd5bfafe7d6e873a412785a7c0000000000000000000000000000000000000000">
+unknown    </frame>
+      </executionStack>
+      <inputbuf>
+SET NOCOUNT ON
+DECLARE @colInt1 INT, @colInt2 INT;
+
+WHILE (1=1) 
+BEGIN
+    SELECT @colInt1 = [colInt1], @colInt2 = [colInt2] 
+	FROM [big_tbl] 
+	WHERE [colInt1] BETWEEN 10 AND 11;
+END
+   </inputbuf>
+    </process>
+    <process id="processee34d468" taskpriority="0" logused="252" waitresource="KEY: 26:72057594040680448 (83ddcbb258ff)" waittime="1358" ownerId="3963646" transactionname="UPDATE" lasttranstarted="2015-03-02T08:17:52.657" XDES="0xf3240d80" lockMode="X" schedulerid="3" kpid="4180" status="suspended" spid="57" sbid="0" ecid="0" priority="0" trancount="2" lastbatchstarted="2015-03-02T08:17:50.473" lastbatchcompleted="2015-03-02T08:17:50.473" lastattention="2015-03-02T07:57:48.150" clientapp="Microsoft SQL Server Management Studio - Query" hostname="MANU-PC" hostpid="7444" loginname="Manu-PC\Manu" isolationlevel="read committed (2)" xactid="3963646" currentdb="26" lockTimeout="4294967295" clientoption1="673187936" clientoption2="390200">
+      <executionStack>
+        <frame procname="adhoc" line="5" stmtstart="38" stmtend="156" sqlhandle="0x020000009d10182cba06509103e5079bce08803773d949720000000000000000000000000000000000000000">
+unknown    </frame>
+        <frame procname="adhoc" line="5" stmtstart="100" stmtend="234" sqlhandle="0x02000000f93b24034d72e39136c7e18dd582d060fb21efea0000000000000000000000000000000000000000">
+unknown    </frame>
+      </executionStack>
+      <inputbuf>
+SET NOCOUNT ON
+WHILE (1=1) 
+BEGIN
+    BEGIN
+		UPDATE [big_tbl] 
+		SET [colInt1] = [colInt1]+1 
+		WHERE [id] = 10;
+
+		UPDATE [big_tbl] 
+		SET [colInt1] = [colInt1]-1 
+		WHERE [id] = 10;
+	END
+END
+   </inputbuf>
+    </process>
+  </process-list>
+  <resource-list>
+    <keylock hobtid="72057594040614912" dbid="26" objectname="Lab09E.dbo.big_tbl" indexname="ci_big_tbl" id="lockf4f88500" mode="X" associatedObjectId="72057594040614912">
+      <owner-list>
+        <owner id="processee34d468" mode="X" />
+      </owner-list>
+      <waiter-list>
+        <waiter id="processf1760ca8" mode="S" requestType="wait" />
+      </waiter-list>
+    </keylock>
+    <keylock hobtid="72057594040680448" dbid="26" objectname="Lab09E.dbo.big_tbl" indexname="nci_big_tbl_colInt1" id="lockfbac2980" mode="S" associatedObjectId="72057594040680448">
+      <owner-list>
+        <owner id="processf1760ca8" mode="S" />
+      </owner-list>
+      <waiter-list>
+        <waiter id="processee34d468" mode="X" requestType="wait" />
+      </waiter-list>
+    </keylock>
+  </resource-list>
+</deadlock>

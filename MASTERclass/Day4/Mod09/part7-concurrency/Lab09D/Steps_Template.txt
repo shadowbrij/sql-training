@@ -1,0 +1,21 @@
+In SQL Server Management Studio, open the buildVersionStore.sql Transact-SQL file from the folder D:\LabFiles\Lab09\Lab09D\Ex01\Starter.
+Select the code under the comment build version store and click Execute.
+Open the TempDBUsage.sql Transact-SQL file from the folder D:\LabFiles\Lab09\Lab09D\Ex01\Starter and click Execute.
+In the Results pane note the version_store_kb column value in first result set and number of rows returned in the second result set.
+Open the SI.sql Transact-SQL file from the folder D:\LabFiles\Lab09\Lab09D\Ex01\Starter.
+Select the code under the comment run transaction with snapshot isolation and click Execute. In the results pane observe the value returned for col2 column is Version3.
+In buildVersionStore.sql query window, select the code under the comment commit and click Execute.
+In SI.sql query window select the code under the comment run select and click Execute. Observe the value of col2 column is Version3.
+After approximately 2 minutes, In TempDBUsage.sql query window, click Execute. Observe the output did not change from the values noted in step xxx
+In SI.sql query window, select the code under the comment rollback and click Execute.
+
+
+In the buildVersionStore.sql query window, select the code under the comment build version store and click Execute.
+In the TempDBUsage.sql query window, click Execute. In the Results pane note the version_store_kb column value in first result set and number of rows returned in the second result set.
+Open the RCSI.sql Transact-SQL file from the folder D:\LabFiles\Lab09\Lab09D\Ex01\Starter.
+Select the code under the comment run transaction with read committed snapshot isolation and click Execute. In the results pane observe the value returned for col2 column is Version3.
+In buildVersionStore.sql query window, select the code under the comment commit and click Execute.
+In RCSI.sql query window select the code under the comment run select and click Execute. Observe the value of col2 column is Version4.
+After approximately 2 minutes, In TempDBUsage.sql query window, click Execute. Observe the version_store_kb changes to 0 and no results returned for second result set.
+In RCSI.sql query window, select the code under the comment rollback and click Execute.
+Close SQL Server Management Studio without saving any changes.

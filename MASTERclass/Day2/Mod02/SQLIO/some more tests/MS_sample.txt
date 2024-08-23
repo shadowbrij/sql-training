@@ -1,0 +1,20 @@
+::Test randmon IO's of 8K
+call sqlio -kW -s600 -frandom -o32 -b8 -LS -Fparam.txt
+call sqlio -kR -s600 -frandom -o32 -b8 -LS -Fparam.txt
+
+::Test small sequential writes 
+call sqlio -kW -s60 -fsequential -o1 -b4 -LS -Fparam.txt
+call sqlio -kW -s60 -fsequential -o1 -b8 -LS -Fparam.txt
+call sqlio -kW -s60 -fsequential -o1 -b16 -LS -Fparam.txt
+call sqlio -kW -s60 -fsequential -o1 -b32 -LS -Fparam.txt
+call sqlio -kW -s60 -fsequential -o1 -b64 -LS -Fparam.txt
+
+::Test large sequential read/write
+call sqlio -kR -s60 -fsequential -o8 –b8 -LS -Fparam.txt
+call sqlio -kR -s60 -fsequential -o8 -b64 -LS -Fparam.txt
+call sqlio -kR -s60 -fsequential -o8 -b128 -LS -Fparam.txt
+call sqlio -kR -s60 -fsequential -o8 -b256 -LS -Fparam.txt
+call sqlio -kW -s60 -fsequential -o8 –b8 -LS -Fparam.txt
+call sqlio -kW -s60 -fsequential -o8 -b64 -LS -Fparam.txt
+call sqlio -kW -s60 -fsequential -o8 -b128 -LS -Fparam.txt
+call sqlio -kW -s60 -fsequential -o8 -b256 -LS -Fparam.txt

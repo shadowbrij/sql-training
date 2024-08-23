@@ -1,0 +1,55 @@
+Navigate to: https://msdn.microsoft.com/en-us/windows/hardware/hh852365.aspx
+download windows debugger setup. full installation will start, choose only windows debugger
+
+after installation, navigate to windbg install folder C:\Program Files (x86)\Windows Kits\8.1\Debuggers\x64
+and run the following command to download the debig symbols offline
+
+symchk /r C:\Program Files\Microsoft SQL Server\MSSQL12.SQL2014\MSSQL\Binn /s SRV*c:\symbols\*http://msdl.microsoft.com/download/symbols
+
+it may take a while///
+
+Luanch windows debugger
+
+set symbols path to c:\symbols
+
+1.	Click File | Attach to a process…
+
+1.	In the Command window, type lmv. Press [Enter]. This will enumerate all the modules currently loaded
+
+1.	In the Command window, type .sympath (including the dot). Press [Enter]. This will display the current symbols path.
+
+1.	In the Command window, type lmv msqlos. Press [Enter]. This will enumerate the sqlos module.
+
+1.	In the Command window, type .detach. Press [Enter].
+
+
+1.	Click File | Open | File or press (Ctrl + O)
+2.	Navigate to C:\vLabs\
+3.	Select UnderstandingWinDbg.sql and click Open
+
+execute and note the os thread id
+
+start windows debuigger, set symbols path and and attach to sql server agin
+
+1.	In the Command window, type ~ . Press [Enter]. (excluding the dot).
+Explanation: The operator for thread in WinDbg is ‘~’. It displays all the threads currently under the context of sqlservr.exe process.
+
+
+1.	Calculate the hex value of os thread id 5956 (lazywriter) using calculator. Note: Your os thread id may be different.
+2.	Launch Calculator. Start | All Programs | Accessories | Calculator
+3.	Change the view to Programmer view by pressing Alt + 3
+4.	Make sure Dec is selected and type the os thread id.
+5.	Click on Hex to convert the value to hexadecimal equivalent.
+6.	In the Command window, scroll up and try to locate thread 1744
+7.	To display the call stack for thread 1744, type ~~[1744]k in the Command window. Press [Enter]. (Note: Your thread id may be different)
+
+Explanation: k command is used to display the stack frame of the specified thread. In our case we are seeing the stack frame for lazywriter background process of SQL Server engine. You can also observe sqldk, sqlmin, etc which are SQL Server Dynamic Link Libraries.
+
+Set the current thread
+1.	In the Command window, type ~~[1744]s. Press [Enter]. (Note: Your thread id may be different)
+
+Display the status of the current thread
+1.	In the Command window, type ~. (including the dot). Press [Enter].
+
+Display the content of memory
+1.	In the Command window, type d (excluding the dot). Press [Enter].

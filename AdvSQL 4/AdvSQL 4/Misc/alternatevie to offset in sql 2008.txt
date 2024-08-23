@@ -1,0 +1,12 @@
+-- to get second max salary
+
+WITH results AS (
+    SELECT 
+        rowNo = ROW_NUMBER() OVER( ORDER BY salary desc )
+        , *
+    FROM employees
+) 
+SELECT * 
+FROM results
+where rowno=2
+--WHERE rowNo between (@pageNumber-1)*@pageSize+1 and @pageNumber*@pageSize

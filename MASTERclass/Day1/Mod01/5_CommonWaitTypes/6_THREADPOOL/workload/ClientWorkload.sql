@@ -1,0 +1,13 @@
+USE [AdventureWorks2014];
+GO
+
+SET NOCOUNT ON;
+GO
+
+WHILE (1 = 1)
+BEGIN
+SELECT
+	COUNT(*) 
+FROM Sales.SalesOrderHeader SOH
+END;
+GO

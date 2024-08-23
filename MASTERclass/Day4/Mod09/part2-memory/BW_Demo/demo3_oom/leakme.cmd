@@ -1,0 +1,1 @@
+ostress -E -ileakme.sql -q -n5 -T42 -T41 -r100000 -S.\sql2014
